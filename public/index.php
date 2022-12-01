@@ -33,3 +33,10 @@ if ($router->match($url)) {
 } else {
   echo "No route found for URL '$url'";
 }
+
+$regex = "/^(?P<controller>[a-zA-Z]+)\/(?P<action>[a-zA-Z]+)$/";
+preg_match($regex, "posts/index", $matches);
+
+echo '<pre>';
+var_dump($matches);
+echo '</pre>';
