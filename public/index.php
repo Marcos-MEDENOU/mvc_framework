@@ -18,8 +18,13 @@
  * PHP version 8.1
  */
 
-//  echo 'Requested URL = "' . $_SERVER['QUERY_STRING'] . '"';
+// Require the controller class
+require "../app/Controller/Posts.php";
 
+//  echo 'Requested URL = "' . $_SERVER['QUERY_STRING'] . '"';
+/**
+ * Routing
+ */
 require "../core/Router.php";
 $router = new Router();
 
@@ -34,24 +39,26 @@ $router->add("admin/{action}/{controller}");
 $router->add("{controller}/{id:\d+}/{action}");
 
 // Display the routing table
-echo '<pre>';
+// echo '<pre>';
 // var_dump($router->getRoutes());
-echo $_SERVER['QUERY_STRING'];
-echo htmlspecialchars(print_r($router->getRoutes(), true));
-echo '</pre>';
+// echo $_SERVER['QUERY_STRING'];
+// echo htmlspecialchars(print_r($router->getRoutes(), true));
+// echo '</pre>';
 // exit();
 
 // Match the requested route
-$url = $_SERVER['QUERY_STRING'];
+// $url = $_SERVER['QUERY_STRING'];
 // echo 'url =>' . $url;
 // exit();
 
 
-if ($router->match($url)) {
-  var_dump($router->getParams());
-} else {
-  echo "No route found for URL '$url'";
-}
+// if ($router->match($url)) {
+//   var_dump($router->getParams());
+// } else {
+//   echo "No route found for URL '$url'";
+// }
+
+$router->dispatch($_SERVER["QUERY_STRING"]);
 
 ?>
   </pre>
