@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <pre>
 <?php
 
 /**
@@ -16,27 +28,30 @@ $router = new Router();
 // Add the routes
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('posts', ['controller' => 'Posts', 'action' => 'index']);
-$router->add('posts/new', ['controller' => 'Posts', 'action' => 'new']);
+// $router->add('posts/new', ['controller' => 'Posts', 'action' => 'new']);
+$router->add('{controller}/{action}');
+$router->add("admin/{action}/{controller}");
 
 // Display the routing table
 // echo '<pre>';
 // var_dump($router->getRoutes());
 // echo '</pre>';
+// exit();
 
 // Match the requested route
 $url = $_SERVER['QUERY_STRING'];
+// echo 'url =>' . $url;
+// exit();
+
 
 if ($router->match($url)) {
-  echo '<pre>';
   var_dump($router->getParams());
-  echo '</pre>';
 } else {
   echo "No route found for URL '$url'";
 }
 
-$regex = "/^(?P<controller>[a-zA-Z]+)\/(?P<action>[a-zA-Z]+)$/";
-preg_match($regex, "posts/index", $matches);
+?>
+  </pre>
+</body>
 
-echo '<pre>';
-var_dump($matches);
-echo '</pre>';
+</html>
