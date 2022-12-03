@@ -8,6 +8,12 @@
 </head>
 <body>
   <h1>Bienvenue !</h1>
-  <p>Hello from the view.</p>
+  <p>Hello <?php echo htmlspecialchars($name); ?>!</p>
+
+  <ul>
+    <?php foreach ($colours as $colours) : ?>
+    <li><?php echo htmlspecialchars($colours); ?></li>
+    <?php endforeach; ?>
+  </ul>
 </body>
 </html>
