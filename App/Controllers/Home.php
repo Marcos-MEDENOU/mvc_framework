@@ -13,10 +13,10 @@ class Home extends \Core\Controller {
    * 
    * @return void
    */
-  public function index() {
+  public function indexAction() {
     echo "Hello from the index action in the Home controller";
-    echo "<p>Query string parameters: <pre>" . 
-    htmlspecialchars(print_r($_GET, true)) . "</pre></p>";
+    // echo "<p>Query string parameters: <pre>" . 
+    // htmlspecialchars(print_r($_GET, true)) . "</pre></p>";
   }
 
   /**
@@ -24,9 +24,27 @@ class Home extends \Core\Controller {
    * 
    * @return void
    */
-  public function addNew() {
+  public function addNewAction() {
     echo "Hello from the addNew action in the Home controller";
-    echo "<p>Query string parameters: <pre>" . 
-    htmlspecialchars(print_r($_GET, true)) . "</pre></p>";
+    // echo "<p>Query string parameters: <pre>" . 
+    // htmlspecialchars(print_r($_GET, true)) . "</pre></p>";
+  }
+
+  /**
+   * Before filter
+   * 
+   * @return void
+   */
+  protected function before() {
+    echo "(before)";
+  }
+
+  /**
+   * After filter
+   * 
+   * @return void
+   */
+  protected function after() {
+    echo "(after)";
   }
 }

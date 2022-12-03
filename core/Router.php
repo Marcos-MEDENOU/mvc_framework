@@ -39,6 +39,7 @@ class Router {
     $route = "/^" . $route . "$/i";
 
     $this->routes[$route] = $params;
+   
   }
 
   /**
@@ -71,18 +72,17 @@ class Router {
     */
     // Match to the fixed URL format /controller/action
     // $reg_exp = "/^(?P<controller>[a-z-]+)\/(?P<action>[a-zA-Z-]+)/";
-    foreach ($this->routes as $route => $params) {
-
+    foreach ($this->routes as $route => $parameters) {
       if (preg_match($route, $url, $matches)) {
         // Get the named capture group values
         $params = [];
-
+        
         foreach ($matches as $key => $match) {
           if (is_string($key)) {
-            $params[$key] = $match;
+            $parameters[$key] = $match;
           }
         }
-        $this->params = $params;
+        $this->params = $parameters;
         return true;
       }
     }
@@ -111,7 +111,8 @@ class Router {
     if ($this->match($url)) {
       $controller = $this->params['controller'];
       $controller = $this->convertToStudlyCaps($controller);
-      $controller = "App\Controllers\\$controller";
+      // $controller = "App\Controllers\\$controller";
+      $controller = $this->getNamespace() . $controller;
 
       if (class_exists($controller)) {
         $controller_object = new $controller($this->params);
@@ -177,5 +178,21 @@ class Router {
       }
     }
     return $url;
+  }
+
+  /**
+   * Get the namespace for the controller class.
+   * The namespace defined in the route parameters is added if present.
+   * 
+   * @return string The request URL
+   */
+  protected function getNamespace() {
+    $namespace = "App\Controllers\\";
+
+    if (array_key_exists("namespace", $this->params)) {
+      $namespace .= $this->params["namespace"] . "\\";
+    }
+
+    return $namespace;
   }
 }
