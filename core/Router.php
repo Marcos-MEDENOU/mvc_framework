@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 /**
  * Router
  * PHP version 8.1
@@ -105,11 +107,11 @@ class Router {
    * @return void
    */
   public function dispatch($url) {
+    $url = $this->removeQueryStringVariables($url);
     if ($this->match($url)) {
-      print_r($this->params);
-      // exit();
       $controller = $this->params['controller'];
       $controller = $this->convertToStudlyCaps($controller);
+      $controller = "App\Controllers\\$controller";
 
       if (class_exists($controller)) {
         $controller_object = new $controller();
@@ -153,5 +155,27 @@ class Router {
   public function convertToCamelCase($string) { {
       return lcfirst($this->convertToStudlyCaps($string));
     }
+  }
+
+  /**
+   * A URL of the format localhost/?page (one variable name, no value) won't
+   * work however. (NB: The .htaccess file converts the first ? to a & when 
+   * it's passed through to the $_SERVER variable).
+   * 
+   * @param string $url The full URL
+   * 
+   * @return string The URL with the query string variables removed
+   */
+  protected function removeQueryStringVariables($url) {
+    if ($url !== "") {
+      $parts = explode("&", $url, 2);
+
+      if (strpos($parts[0], "=") === false) {
+        $url = $parts[0];
+      } else {
+        $url = "";
+      }
+    }
+    return $url;
   }
 }

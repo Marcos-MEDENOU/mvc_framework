@@ -1,15 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-
-<body>
-  <pre>
 <?php
 
 /**
@@ -19,14 +7,26 @@
  */
 
 // Require the controller class
-require "../app/Controller/Posts.php";
+// require "../app/Controller/Posts.php";
+
+/**
+ * Autoloader
+ */
+spl_autoload_register(function ($class) {
+  $root = dirname(__DIR__); // get the parent directory
+  $file = $root . "/" . str_replace("\\", "/", $class) . ".php";
+
+  if (is_readable($file)) {
+    require $root . "/" . str_replace("\\", "/", $class) . ".php";
+  }
+});
 
 //  echo 'Requested URL = "' . $_SERVER['QUERY_STRING'] . '"';
 /**
  * Routing
  */
 require "../core/Router.php";
-$router = new Router();
+$router = new Core\Router();
 
 // echo get_class($router);
 
@@ -47,7 +47,7 @@ $router->add("{controller}/{id:\d+}/{action}");
 // exit();
 
 // Match the requested route
-// $url = $_SERVER['QUERY_STRING'];
+$url = $_SERVER['QUERY_STRING'];
 // echo 'url =>' . $url;
 // exit();
 
@@ -59,9 +59,3 @@ $router->add("{controller}/{id:\d+}/{action}");
 // }
 
 $router->dispatch($_SERVER["QUERY_STRING"]);
-
-?>
-  </pre>
-</body>
-
-</html>
